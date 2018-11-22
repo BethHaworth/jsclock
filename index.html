@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Beth's Clock</title>
+</head>
+<body>
+
+    <div class="title">
+        <h1> Beth's Clock</h1>
+        <br><br>
+    </div>
+
+    <div class="digi-clock">
+        <span id="hr">00</span>
+        <span> : </span>
+        <span id="min">00</span>
+        <span> : </span>
+        <span id="sec">00</span>
+    </div>
+
+    <div class="clock">
+      <div class="clock-face">
+        <div class="hand hour-hand"></div>
+        <div class="hand min-hand"></div>
+        <div class="hand second-hand"></div>
+      </div>
+    </div>
+
+
+  <style>
+    html {
+      background: linear-gradient(45deg, #654ea3 39%,#2989d8 100%,#207cca 100%,#7db9e8 100%);
+      background-size: cover;
+      font-family: 'helvetica neue';
+      text-align: center;
+      font-size: 10px;
+    }
+    h1 {
+      font-family: 'helvetica neue';
+      text-align: center;
+      font-size: 36pt;
+      color: rgba(255, 255, 255, 0.801);
+    }
+    .digi-clock{
+        position: absolute;
+        margin-top: 100px;
+        font-size: 24pt;
+        font-family: 'helvetica neue';
+        color: rgba(255, 255, 255, 0.801);
+    }
+    body {
+      margin: 0;
+      font-size: 2rem;
+      display: flex;
+      flex: 1;
+      min-height: 100vh;
+      margin-left: auto;
+      margin-right: auto;
+      width: 800px;
+    }
+    .clock {
+      width: 30rem;
+      height: 30rem;
+      border: 40px solid rgba(255, 255, 255, 0.801);
+      border-radius: 50%;
+      margin: 50px auto;
+      position: relative;
+      padding: 2rem;
+
+    }
+    .clock-face {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform: translateY(-3px); /* account for the height of the clock hands */
+    }
+    .hand {
+      background: rgba(255, 255, 255, 0.801);
+      border-radius: 15px;
+      position: absolute;
+      top: 50%;
+      transform-origin: 100%;
+      transform: rotate(90deg);
+      transition: all 0.05s;
+      transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
+    }
+    .min-hand {
+      width: 50%;
+      height: 15px;
+    }
+    .second-hand {
+      width: 52%;
+      margin-left: -3%;
+      height: 5px;
+    }
+    .hour-hand {
+      width: 30%;
+      margin-left: 20%;
+      height: 15px;
+    }
+</style>
+
+<script>
+  const secondHand = document.querySelector('.second-hand');
+  const minsHand = document.querySelector('.min-hand');
+  const hourHand = document.querySelector('.hour-hand');
+  function setDate() {
+    const now = new Date();
+    const seconds = now.getSeconds();
+    const secondsDegrees = ((seconds / 60) * 360) + 90;
+    secondHand.style.transform = `rotate(${secondsDegrees}deg)`;
+    const mins = now.getMinutes();
+    const minsDegrees = ((mins / 60) * 360) + ((seconds/60)*6) + 90;
+    minsHand.style.transform = `rotate(${minsDegrees}deg)`;
+    const hour = now.getHours();
+    const hourDegrees = ((hour / 12) * 360) + ((mins/60)*30) + 90;
+    hourHand.style.transform = `rotate(${hourDegrees}deg)`;
+  }
+  setInterval(setDate, 1000);
+  setDate();
+
+  var d,h,m,s,animate;
+
+function init(){
+    d=new Date();
+    h=d.getHours();
+    m=d.getMinutes();
+    s=d.getSeconds();
+    clock();
+};
+
+function clock(){
+    s++;
+    if(s==60){
+        s=0;
+        m++;
+        if(m==60){
+            m=0;
+            h++;
+            if(h==24){
+                h=0;
+            }
+        }
+    }
+    $('sec',s);
+    $('min',m);
+    $('hr',h);
+    animate=setTimeout(clock,1000);
+};
+
+function $(id,val){
+    if(val<10){
+        val='0'+val;
+    }
+    document.getElementById(id).innerHTML=val;
+};
+
+window.onload=init;
+</script>
+</body>
+</html>
